@@ -10,7 +10,6 @@ This project utilizes a deep learning model built with TensorFlow to detect auti
 - [Installation](#installation)
 - [Usage](#usage)
 - [TensorFlow Lite Conversion](#tensorflow-lite-conversion)
-- [Results](#results)
 - [Contributing](#contributing)
 - [License](#license)
 
