@@ -1,143 +1,161 @@
-# Autism Trait Detection in Children using AI
+<div align="center">
 
-This project utilizes a deep learning model built with TensorFlow to detect autism traits in children based on a dataset of behavioral questions. The model predicts whether a child exhibits autistic traits based on the responses to these questions, and it is capable of being converted into a TensorFlow Lite model for deployment on mobile and embedded devices.
+# NeuroVision
 
-## Table of Contents
+### Detecting autism traits in children using AI.
 
-- [Project Overview](#project-overview)
-- [Dataset](#dataset)
-- [Model Architecture](#model-architecture)
-- [Installation](#installation)
-- [Usage](#usage)
-- [TensorFlow Lite Conversion](#tensorflow-lite-conversion)
-- [Contributing](#contributing)
-- [License](#license)
+A **lightweight deep learning model** that classifies autism traits from 10 behavioral questions. Trained in seconds. Deployable on mobile via TensorFlow Lite.
 
-## Project Overview
+Built with TensorFlow and scikit-learn. One script. One dataset. No cloud required.
 
-Autism Spectrum Disorder (ASD) is a developmental disorder that affects communication and behavior. Early detection can lead to better outcomes for children who may have ASD. This project leverages machine learning to detect autism traits based on answers to a series of behavioral questions.
+[![Python](https://img.shields.io/badge/Python-3.7%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?style=flat-square&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-StandardScaler-FF6B35?style=flat-square)](https://scikit-learn.org/)
+[![TFLite](https://img.shields.io/badge/TFLite-Mobile-4285F4?style=flat-square)](https://www.tensorflow.org/lite)
+[![License](https://img.shields.io/badge/License-MIT-00C853?style=flat-square)](LICENSE)
 
-The model, built using TensorFlow, is trained on a dataset and classifies whether a child exhibits autistic traits. Additionally, the model can be converted into TensorFlow Lite format for efficient use on mobile devices and embedded systems.
+</div>
 
-## Dataset
+---
 
-The dataset consists of 10 behavioral questions (Q1-Q10) and a target label (`autism`), which indicates whether the child exhibits autism traits (`Yes` or `No`).
+## Why NeuroVision?
 
-- **Number of Samples:** 1,054
-- **Features:**
-  - Q1 to Q10: Responses to behavioral questions (binary integer values).
-  - **Target (autism):** A binary classification of whether the child exhibits autism traits (`Yes` or `No`).
+Autism Spectrum Disorder affects communication and behavior. Early detection improves outcomes, but screening tools are often expensive or inaccessible. NeuroVision provides a fast, local, and privacy-respecting model that classifies autism traits from simple behavioral questionnaires — no internet, no API keys, no data leaves your machine.
 
-### Example Data
+> "Early detection shouldn't require a hospital visit."
 
-| Q1  | Q2  | Q3  | Q4  | Q5  | Q6  | Q7  | Q8  | Q9  | Q10 | Autism |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ------ |
-| 0   | 0   | 0   | 0   | 0   | 0   | 1   | 1   | 0   | 1   | No     |
-| 1   | 1   | 0   | 0   | 0   | 1   | 1   | 0   | 0   | 0   | Yes    |
-| 1   | 0   | 0   | 0   | 0   | 0   | 1   | 1   | 0   | 1   | Yes    |
-| 1   | 1   | 1   | 1   | 1   | 1   | 1   | 1   | 1   | 1   | Yes    |
+---
 
-### Preprocessing
+## Features
 
-- **Label Encoding:** The `autism` target column is encoded to convert the labels from "Yes"/"No" to binary integers (1 for Yes, 0 for No).
-- **Standardization:** Features (Q1-Q10) are standardized using `StandardScaler`.
-- **Train-Test Split:** Data is split into 80% training and 20% testing.
+### One-Script Pipeline
 
-## Model Architecture
+Preprocessing, training, evaluation, and TFLite conversion all happen in a single `autism_trait_detection.py`. Run it once and you're done.
 
-The model is a fully connected deep neural network (DNN) implemented in TensorFlow, with the following structure:
+### Mobile-Ready
 
-- **Input Layer:** The model accepts 10 input features (Q1-Q10).
-- **Hidden Layers:**
-  - Dense layer with 64 neurons and ReLU activation.
-  - Dense layer with 32 neurons and ReLU activation.
-- **Output Layer:** A single neuron with a sigmoid activation function for binary classification.
+The trained model converts to TensorFlow Lite automatically, producing a `model.tflite` file ready for Android and embedded deployment.
 
-### Model Definition
+### No Dependencies Beyond the Basics
 
-```python
-model = tf.keras.Sequential([
-    tf.keras.layers.Input(shape=(X_train.shape[1],)),
-    tf.keras.layers.Dense(64, activation='relu'),
-    tf.keras.layers.Dense(32, activation='relu'),
-    tf.keras.layers.Dense(1, activation='sigmoid')
-])
-```
+TensorFlow, scikit-learn, pandas, numpy. No heavy frameworks, no GPU requirement. Trains in under a minute on CPU.
 
-- **Loss Function:** Binary Cross-Entropy (since this is a binary classification task).
-- **Optimizer:** Adam optimizer.
-- **Metrics:** Accuracy.
+### Configurable Architecture
 
-## Installation
+Swap the hidden layer sizes, epochs, or batch size in a few lines. The model is a straightforward Sequential DNN — easy to understand and modify.
+
+### And more
+
+- **Binary classification** — predicts Yes/No autism traits
+- **StandardScaler** — features standardized for consistent predictions
+- **Shuffled split** — 80/20 train-test with reproducible seed
+- **Label encoding** — handles string labels automatically
+- **Lightweight output** — small `.tflite` file suitable for on-device inference
+
+---
+
+## Quick Start
 
 ### Prerequisites
 
 - Python 3.7+
-- Required libraries:
-  ```bash
-  pip install numpy pandas scikit-learn tensorflow
-  ```
+- TensorFlow, scikit-learn, pandas, numpy
 
-### Clone the Repository
+### Install
 
 ```bash
 git clone https://github.com/uxlabspk/NeuroVision.git
 cd NeuroVision
+pip install numpy pandas scikit-learn tensorflow
 ```
 
-### Prepare the Dataset
+### Run
 
-Ensure the dataset file is named `dataset.csv` and placed in the root directory.
+```bash
+python3 autism_trait_detection.py
+```
 
-## Usage
+This will train the model, print accuracy, run a sample prediction, and save `model.tflite`.
 
-The code is contained in a single file, `autism_trait_detection.py`, which performs all steps including preprocessing, training, evaluation, and model conversion.
-
-1. **Run the Script:**
-
-   To train the model, evaluate its performance, and convert it to TensorFlow Lite, simply run:
-
-   ```bash
-   python3 autism_trait_detection.py
-   ```
-
-2. **Prediction Example:**
-
-   The script also provides an example for predicting autism traits for a new set of data:
-
-   ```python
-   new_data = np.array([[0, 0, 0, 0, 1, 0, 0, 1, 0, 0]])
-   prediction = model.predict(new_data)
-   if prediction[0][0] >= 0.5:
-       print("Prediction for Autism: Yes")
-   else:
-       print("Prediction for Autism: No")
-   ```
-
-## TensorFlow Lite Conversion
-
-The trained model is converted to TensorFlow Lite format for efficient deployment in Android eco system:
+### Predict on New Data
 
 ```python
-converter = tf.lite.TFLiteConverter.from_keras_model(model)
-tflite_model = converter.convert()
-
-with open('model.tflite', 'wb') as f:
-    f.write(tflite_model)
+import numpy as np
+new_data = np.array([[0, 0, 0, 0, 1, 0, 0, 1, 0, 0]])
+new_data = scaler.transform(new_data)
+prediction = model.predict(new_data)
+if prediction[0][0] >= 0.5:
+    print("Prediction for Autism: Yes")
+else:
+    print("Prediction for Autism: No")
 ```
 
-This will generate a `model.tflite` file, which can be integrated in Android eco system.
+---
+
+## How it works
+
+```
+dataset.csv
+    ↓
+LabelEncoder          Encodes string columns (Yes/No) to integers
+    ↓
+StandardScaler        Normalizes features to zero mean, unit variance
+    ↓
+train_test_split      80% train, 20% test (shuffled)
+    ↓
+DNN (64 → 32 → 1)    Binary classifier with ReLU hidden layers
+    ↓
+model.evaluate        Reports test accuracy
+    ↓
+TFLiteConverter       Converts Keras model to .tflite for mobile
+```
+
+---
+
+## Tech Stack
+
+| Layer | Tech |
+|-------|------|
+| Model | **TensorFlow Sequential DNN** — 64 → 32 → 1 (sigmoid) |
+| Preprocessing | **scikit-learn** — LabelEncoder, StandardScaler, train_test_split |
+| Data | **pandas** — CSV loading and manipulation |
+| Deployment | **TFLite** — mobile and embedded inference |
+
+---
+
+## Project Structure
+
+```
+NeuroVision/
+├── autism_trait_detection.py   Full pipeline: train, evaluate, convert
+├── dataset.csv                 Behavioral questionnaire data (1054 samples)
+├── model.tflite                Pre-converted TFLite model
+├── LICENSE                     MIT
+└── README.md
+```
+
+---
 
 ## Contributing
 
-Contributions are welcome! If you'd like to contribute to this project:
+Contributions welcome.
 
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature-branch`).
-3. Commit your changes (`git commit -m 'Add feature'`).
-4. Push to the branch (`git push origin feature-branch`).
-5. Open a pull request.
+1. Fork it
+2. Create a branch (`git checkout -b feat/my-thing`)
+3. Commit (`git commit -m 'Add my thing'`)
+4. Push (`git push origin feat/my-thing`)
+5. Open a PR
+
+---
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+MIT — do whatever you want with it.
+
+---
+
+**If NeuroVision helps your project, give it a star.**
+
+It helps others find it, and tells me this is worth continuing.
+
+[Star this repo](https://github.com/uxlabspk/NeuroVision/stargazers)
